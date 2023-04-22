@@ -13,10 +13,10 @@ def home():
 
 @app.route('/check-stock', methods=['POST'])
 def stock_price_alert():
-    stock_symbol = request.json['stock-symbol']
-    price_threshold = request.json['price-threshold']
-    check_frequency = request.json['check-frequency']
-    notification_method = request.json['notif-method']
+    stock_symbol = request.json['stock_symbol']
+    price_threshold = request.json['threshold_price']
+    check_frequency = request.json['frequency']
+    notification_method = request.json['notification_type']
 
     print(stock_symbol,price_threshold,check_frequency,notification_method)
 
@@ -25,23 +25,31 @@ def stock_price_alert():
     url = f'https://finance.yahoo.com/quote/{stock_symbol}/history?p={stock_symbol}'   
     print(f'url is {url}')
 
-    stock_price = get_stock_prices(url)
-    print(f'latest stock price is {stock_price}')
+    try:
+        stock_price = get_stock_prices(url)
+        print(f'latest stock price of {stock_symbol} is {stock_price}')
+    
+    except:
+        return jsonify({"error": "Invalid stock symbol"}), 400
+
 
 
     def check_price(stock_price):
         # Compare the stock price to the price threshold and send notification if necessary
         if float(stock_price) >= float(price_threshold):
-            send_notification(notification_method, stock_symbol, price_threshold, stock_price)
+            # send_notification(notification_method, stock_symbol, price_threshold, stock_price)
+            print("send notif")
 
         # Set up a timer to check the stock price at the desired frequency
-        check_interval = get_check_interval(check_frequency)
-        # check_interval = 1000
+        # check_interval = get_check_interval(check_frequency)
+        check_interval = 10
         while True:
             time.sleep(check_interval)
             stock_price = get_stock_prices(url)
+            print(f'latest stock price of {stock_symbol} is {stock_price}')
             if float(stock_price) >= float(price_threshold):
-                send_notification(notification_method, stock_symbol, price_threshold, stock_price)
+                print("send notif")
+                # send_notification(notification_method, stock_symbol, price_threshold, stock_price)
 
     t= threading.Thread(target=check_price,args=(stock_price,))
     t.start()

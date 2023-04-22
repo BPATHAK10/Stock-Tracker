@@ -4,6 +4,7 @@ from mail import send_mail_notification
 from sms import send_sms_notification
 
 def get_stock_prices(url):
+    print("fetching stock price")
     response = requests.get(url,headers={'User-Agent': 'Custom'})
     print(response.status_code)
     soup = BeautifulSoup(response.content, 'html.parser')
