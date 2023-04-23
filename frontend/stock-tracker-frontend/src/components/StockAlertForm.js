@@ -126,6 +126,7 @@ function StockAlertForm() {
             <TextField
               id="outlined-basic"
               label="Stock Symbol"
+              helperText= "Please enter a valid stock symbol"
               variant="outlined"
               onChange={handleChange}
               name="stock_symbol"
@@ -246,10 +247,21 @@ function StockAlertForm() {
             )}
           </Grid>
           <Grid item sm={10}>
-            <Button type="submit" variant="contained">
-              Submit
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                fontSize: "1.2rem",
+                backgroundColor: "#ff5722",
+                color: "white",
+                fontWeight: "bold",
+                "&:hover": { backgroundColor: "#e64a19" },
+              }}
+            >
+                TRACK
             </Button>
           </Grid>
+
           <Grid item sm={2}>
             <Button onClick={handlereset} color="secondary" variant="outlined">
               Reset
