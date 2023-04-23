@@ -25,12 +25,12 @@ def get_stock_prices(url):
     return float(latest_price.replace(',',''))
 
 
-def send_notification(notification_method, stock_symbol, price_threshold, stock_price):
+def send_notification(notification_method, stock_symbol, price_threshold, stock_price,email,phone_number):
     # Implement notification logic here
     if notification_method == "email":
-        send_mail_notification(stock_symbol,price_threshold,stock_price)
+        send_mail_notification(stock_symbol,price_threshold,stock_price,email)
     elif notification_method == "text":
-        send_sms_notification(stock_symbol,price_threshold,stock_price)
+        send_sms_notification(stock_symbol,price_threshold,stock_price,phone_number)
     
 
     print(f"the notification of {stock_symbol} is sent through {notification_method}")

@@ -2,7 +2,7 @@ from twilio.rest import Client
 import os
 from dotenv import load_dotenv
 
-def send_sms_notification(stock_symbol, price_threshold, stock_price):
+def send_sms_notification(stock_symbol, price_threshold, stock_price,phone_number):
 
     load_dotenv()
     # Your Twilio account SID and auth token
@@ -18,7 +18,7 @@ def send_sms_notification(stock_symbol, price_threshold, stock_price):
     message = client.messages.create(
         body=body,
         from_='+16073897181',
-        to='++977 9861 468329'
+        to='++977 ' + phone_number
     )
 
     # Print the message SID

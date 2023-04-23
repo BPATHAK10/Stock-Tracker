@@ -17,6 +17,8 @@ def stock_price_alert():
     price_threshold = request.json['threshold_price']
     check_frequency = request.json['frequency']
     notification_method = request.json['notification_type']
+    phone_number = request.json['phone']
+    email = request.json['email']
 
     print(stock_symbol,price_threshold,check_frequency,notification_method)
 
@@ -37,19 +39,19 @@ def stock_price_alert():
     def check_price(stock_price):
         # Compare the stock price to the price threshold and send notification if necessary
         if float(stock_price) >= float(price_threshold):
-            # send_notification(notification_method, stock_symbol, price_threshold, stock_price)
-            print("send notif")
+            send_notification(notification_method, stock_symbol, price_threshold, stock_price,email,phone_number)
+            # print("send notif")
 
         # Set up a timer to check the stock price at the desired frequency
-        # check_interval = get_check_interval(check_frequency)
-        check_interval = 10
+        check_interval = get_check_interval(check_frequency)
+        # check_interval = 10
         while True:
             time.sleep(check_interval)
             stock_price = get_stock_prices(url)
             print(f'latest stock price of {stock_symbol} is {stock_price}')
             if float(stock_price) >= float(price_threshold):
-                print("send notif")
-                # send_notification(notification_method, stock_symbol, price_threshold, stock_price)
+                # print("send notif")
+                send_notification(notification_method, stock_symbol, price_threshold, stock_price,email,phone_number)
 
     t= threading.Thread(target=check_price,args=(stock_price,))
     t.start()
